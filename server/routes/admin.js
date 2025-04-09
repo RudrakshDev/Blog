@@ -20,12 +20,16 @@ const authMiddleware = (req, res, next ) => {
     return res.status(401).json( { message: 'Unauthorized'} );
   }
 
-  try {
+  try 
+  {
     const decoded = jwt.verify(token, jwtSecret);
     req.userId = decoded.userId;
     next();
-  } catch(error) {
+  } 
+  catch 
+  {
     res.status(401).json( { message: 'Unauthorized'} );
+    console.log('Error occurred');
   }
 }
 
@@ -114,7 +118,7 @@ router.get('/add-post', authMiddleware, async (req, res) => {
       description: 'Simple Blog created with NodeJs, Express & MongoDb.'
     }
 
-    const data = await Post.find();
+    // const data = await Post.find();
     res.render('admin/add-post', {
       locals,
       layout: adminLayout
@@ -200,20 +204,20 @@ router.put('/edit-post/:id', authMiddleware, async (req, res) => {
 });
 
 
-router.post('/admin', async (req, res) => {
-  try {
-    const { username, password } = req.body;
+// router.post('/admin', async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
     
-    if(req.body.username === 'admin' && req.body.password === 'password') {
-      res.send('You are logged in.')
-    } else {
-      res.send('Wrong username or password');
-    }
+//     if(req.body.username === 'admin' && req.body.password === 'password') {
+//       res.send('You are logged in.')
+//     } else {
+//       res.send('Wrong username or password');
+//     }
 
-  } catch (error) {
-    console.log(error);
-  }
-});
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 
 /**
